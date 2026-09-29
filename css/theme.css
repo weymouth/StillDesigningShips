@@ -1,0 +1,216 @@
+/* Still Designing Ships — cinematic reveal.js theme
+   Slide canvas is 1920×1080 with zero margin; all sizes below are canvas px. */
+
+@font-face { font-family: "Libertinus Serif"; src: url("../assets/fonts/LibertinusSerif-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+@font-face { font-family: "Libertinus Serif"; src: url("../assets/fonts/LibertinusSerif-Italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "Libertinus Serif"; src: url("../assets/fonts/LibertinusSerif-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; }
+@font-face { font-family: "Libertinus Serif"; src: url("../assets/fonts/LibertinusSerif-BoldItalic.woff2") format("woff2"); font-weight: 700; font-style: italic; }
+
+:root {
+  --bg: #070a0e;          /* near-black, a touch of deep water */
+  --ink: #f2eee6;         /* warm off-white */
+  --ink-dim: #a9a79f;
+  --ink-faint: #5d5f60;
+  --rule: #2a2f35;
+  --warm: #f0a53c;        /* amber: the hero series / emphasis */
+  --cool: #00a6d6;        /* TU Delft cyan: the contrast series */
+  --serif: "Libertinus Serif", Georgia, serif;
+}
+
+html, body, .reveal, .reveal-viewport { background: var(--bg); }
+.reveal { font-family: var(--serif); color: var(--ink); font-size: 44px; }
+.reveal .slides { text-align: left; }
+.reveal .slides > section { width: 1920px; height: 1080px; padding: 0; }
+.reveal ::selection { background: var(--warm); color: var(--bg); }
+
+/* ---------- Full-bleed media layers ------------------------------------ */
+.reveal .media {
+  position: absolute; inset: 0; overflow: hidden; background: var(--bg);
+  z-index: 0;   /* own stacking context: a later layer covers everything inside an earlier one */
+}
+.reveal .media > img, .reveal .media > video {
+  width: 100%; height: 100%; max-width: none; max-height: none; margin: 0;
+  object-fit: cover; display: block;
+}
+.reveal .media.contain > img, .reveal .media.contain > video { object-fit: contain; }
+/* Invert: dark-on-white images (e.g. a skeleton on white) shown light-on-dark */
+.reveal .media.invert > img { filter: invert(1) hue-rotate(180deg); background: #fff; }
+.reveal .media.invert { background: #000; }
+/* Cropped media (data-view): centre the cropped box */
+.reveal .media.viewbox { display: flex; align-items: center; justify-content: center; }
+
+/* Card under a top headline and above a bottom tagline */
+.reveal .media.card.low > img, .reveal .media.card.low > video { height: 62%; margin: 40px 0 0 0; }
+
+/* Inset: a wide figure sitting below a top headline */
+.reveal .media.inset { display: flex; justify-content: center; align-items: flex-start; padding-top: 175px; }
+.reveal .media.inset > img { width: 84%; height: auto; object-fit: contain; }
+.reveal .caption.medium { font-size: 64px; max-width: 1500px; line-height: 1.1; bottom: 150px; }
+.reveal .wordeq.warm, .reveal .wordeq.warm i { color: var(--warm); }
+.reveal .wordeq.warm .frac > span:first-child { border-bottom-color: var(--warm); }
+.reveal .caption.tagline { font-size: 52px; bottom: 56px; max-width: 1700px; }
+.reveal .caption.tagline.right { left: 1070px; max-width: 800px; }
+.reveal .sub.big { font-size: 46px; }
+.reveal .footnote {
+  position: absolute; z-index: 5; left: 110px; bottom: 90px; max-width: 1700px;
+  font-size: 38px; line-height: 1.3; color: var(--ink);
+}
+.reveal .caption.small { font-size: 40px; bottom: 44px; color: var(--ink-dim); font-style: italic; }
+
+/* Card: portrait or white-background clips, framed and centred on the dark slide */
+.reveal .media.card { display: flex; align-items: center; justify-content: center; }
+.reveal .media.card > img, .reveal .media.card > video {
+  width: auto; height: 74%; max-width: 88%; margin-bottom: 11%; object-fit: contain;
+  border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+/* Side-by-side pair: <div class="split"> <div class="media">…</div> ×2 </div> */
+.reveal .split { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--bg); }
+.reveal .split > .media { position: relative; inset: auto; }
+.reveal .split .tag {
+  position: absolute; bottom: 64px; right: 48px; z-index: 6;
+  font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+}
+
+/* Photo credit, bottom-right of its own media layer */
+.reveal .credit {
+  position: absolute; right: 28px; bottom: 18px; z-index: 3;
+  font-size: 18px; color: rgba(242,238,230,0.6); font-style: italic;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+}
+.reveal .credit a { color: var(--ink); text-decoration: none; }
+
+/* Cover: a photo (with its own headline) over a graphic slide, fading out on the first click */
+.reveal .cover { position: absolute; inset: 0; z-index: 10; background: var(--bg); }
+/* Overlay: a full-screen layer that fades in over a graphic, under the top headline */
+.reveal .overlay { position: absolute; inset: 0; z-index: 10; background: var(--bg); }
+.reveal .overlay.fragment, .reveal .cover.fragment { transition: opacity 0.8s ease, visibility 0.8s; }
+.reveal .caption {
+  position: absolute; z-index: 5; left: 110px; bottom: 96px;
+  font-size: 110px; line-height: 1; color: var(--warm); text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+}
+
+/* Beats: stacked layers, each new fragment fades in over the previous one */
+.reveal .beat.fragment { transition: opacity 0.7s ease, visibility 0.7s; }
+
+/* ---------- Missing-asset placeholder ---------------------------------- */
+.reveal .ph {
+  position: absolute; inset: 40px; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center; gap: 22px;
+  border: 3px dashed var(--ink-faint); border-radius: 18px;
+  background: repeating-linear-gradient(135deg, #0d1117 0 24px, #10151c 24px 48px);
+  color: var(--ink-dim);
+}
+.reveal .split .ph { inset: 24px; }
+.reveal .ph .ph-file { font-family: Consolas, "Cascadia Mono", monospace; font-size: 34px; color: var(--warm); }
+.reveal .ph .ph-alt { font-size: 38px; max-width: 80%; line-height: 1.25; color: var(--ink); }
+.reveal .ph .ph-kind { font-size: 22px; letter-spacing: 0.2em; text-transform: uppercase; }
+body.hide-placeholders .reveal .ph { display: none; }
+
+/* ---------- Headlines --------------------------------------------------- */
+.reveal .scrim {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: linear-gradient(to top, rgba(4,6,9,0.88) 0%, rgba(4,6,9,0.55) 26%, rgba(4,6,9,0) 50%);
+}
+.reveal .scrim.top { background: linear-gradient(to bottom, rgba(4,6,9,0.85) 0%, rgba(4,6,9,0.45) 24%, rgba(4,6,9,0) 44%); }
+
+.reveal h1, .reveal h2 {
+  font-family: var(--serif); color: var(--ink); text-transform: none;
+  letter-spacing: -0.005em; margin: 0; text-shadow: 0 2px 24px rgba(0,0,0,0.55);
+}
+.reveal .headline {
+  position: absolute; z-index: 5; left: 110px; bottom: 96px; max-width: 1700px;
+  font-size: 58px; line-height: 1.06; font-weight: 400;
+}
+.reveal .headline.top { top: 88px; bottom: auto; max-width: 1700px; font-size: 56px; z-index: 12; }
+.reveal .headline em { color: var(--warm); font-style: italic; }
+.reveal .sub {
+  display: block; margin-top: 22px; font-size: 34px; line-height: 1.3;
+  color: var(--ink-dim); font-style: italic;
+}
+
+/* Title slide */
+.reveal .title h1 { font-size: 104px; line-height: 1.0; font-weight: 400; max-width: 1500px; }
+.reveal .title .byline { margin-top: 40px; font-size: 40px; color: var(--ink-dim); letter-spacing: 0.02em; }
+.reveal .title .byline b { color: var(--ink); font-weight: 400; }
+
+/* ---------- Coded-graphic slides --------------------------------------- */
+.reveal .figure { position: absolute; left: 110px; right: 110px; top: 250px; bottom: 80px; }
+.reveal .figure svg { width: 100%; height: 100%; overflow: visible; display: block; }
+.reveal svg text { font-family: var(--serif); fill: var(--ink); text-rendering: geometricPrecision; }
+.reveal svg .dim   { fill: var(--ink-dim); }
+.reveal svg .faint { fill: var(--ink-faint); }
+.reveal svg .warm  { fill: var(--warm); }
+.reveal svg .cool  { fill: var(--cool); }
+.reveal svg .axis  { stroke: var(--ink-faint); stroke-width: 2; fill: none; }
+.reveal svg .grid  { stroke: var(--rule); stroke-width: 1.5; fill: none; }
+.reveal svg .water { stroke: #1d3a4a; stroke-width: 2; fill: none; }
+.reveal svg .hull  { fill: var(--ink); }
+.reveal svg .rig { stroke: var(--ink); stroke-width: 3; fill: none; }
+.reveal svg .hull.hero { fill: var(--warm); }
+.reveal svg .ghost { fill: none; stroke: var(--ink-dim); stroke-width: 2.5; stroke-dasharray: 10 8; }
+.reveal svg .trend { stroke: var(--warm); stroke-width: 5; fill: none; stroke-linecap: round; }
+.reveal svg .trend.naive { stroke: var(--ink-dim); stroke-width: 3; stroke-dasharray: 14 10; }
+.reveal svg .dot { fill: var(--ink); stroke: var(--bg); stroke-width: 4; }
+.reveal svg g.fragment { transition: opacity 0.6s ease; }
+
+/* Bars grow in when their slide (or fragment) becomes visible */
+.reveal svg .bar { transform-box: fill-box; transition: transform 0.9s cubic-bezier(.2,.7,.2,1); }
+.reveal svg .bar.up   { fill: var(--warm); transform-origin: left center; }
+.reveal svg .bar.down { fill: var(--cool); transform-origin: right center; }
+.reveal section:not(.present) svg .bar,
+.reveal svg g.fragment:not(.visible) .bar { transform: scaleX(0); }
+.reveal svg .bar.vert { transform-origin: center bottom; }
+.reveal section:not(.present) svg .bar.vert,
+.reveal svg g.fragment:not(.visible) .bar.vert { transform: scaleY(0); }
+
+/* Map */
+.reveal svg .land { fill: #1d2b35; }
+.reveal svg .route { fill: none; stroke: var(--warm); stroke-width: 5; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; }
+.reveal svg g.fragment.visible .route { animation: draw-route 4.5s ease-in-out 0.3s forwards; }
+@keyframes draw-route { to { stroke-dashoffset: 0; } }
+
+/* Water */
+.reveal svg .sea { fill: #0e3242; fill-opacity: 0.88; }
+.reveal svg .surface { fill: none; stroke: var(--cool); stroke-width: 4; stroke-linejoin: round; }
+.reveal svg .drift { animation: drift var(--T) linear infinite; }
+@keyframes drift { from { transform: translateX(calc(-1 * var(--dx))); } to { transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) { .reveal svg .drift { animation: none; } }
+
+/* ---------- Word equations -------------------------------------------- */
+/* <div class="wordeq">Froude number <i>=</i>
+     <span class="frac"><span>ship speed</span><span>wave speed</span></span></div> */
+.reveal .wordeq {
+  position: absolute; left: 110px; bottom: 90px; z-index: 5;
+  display: flex; align-items: center; gap: 30px; flex-wrap: nowrap;
+  font-size: 46px; line-height: 1.1; color: var(--ink);
+}
+.reveal .wordeq.top { top: 250px; bottom: auto; }
+.reveal .wordeq b { font-weight: 400; color: var(--warm); }
+.reveal .wordeq i { font-style: normal; color: var(--ink-dim); }
+.reveal .frac { display: inline-flex; flex-direction: column; align-items: center; text-align: center; }
+.reveal .frac > span:first-child { padding: 0 16px 10px; border-bottom: 3px solid var(--ink-dim); }
+.reveal .frac > span:last-child { padding: 10px 16px 0; }
+
+/* Closing slide */
+.reveal .thanks { position: absolute; left: 110px; top: 300px; }
+.reveal .thanks h1 { font-size: 120px; font-weight: 400; }
+.reveal .thanks p { font-size: 44px; color: var(--ink-dim); margin: 36px 0 0; line-height: 1.4; }
+.reveal .thanks a { color: var(--cool); }
+.reveal .qr { position: absolute; right: 150px; top: 290px; width: 420px; height: 420px; }
+.reveal .qr .ph { inset: 0; }
+.reveal .logo { position: absolute; left: 110px; bottom: 90px; height: 90px; }
+
+/* Credits slide */
+.reveal .credits-list {
+  position: absolute; left: 110px; right: 110px; top: 190px; margin: 0; padding: 0;
+  list-style: none; columns: 2; column-gap: 60px; font-size: 20px; line-height: 1.35; color: var(--ink-dim);
+}
+.reveal .credits-list li { break-inside: avoid; margin-bottom: 8px; }
+.reveal .credits-list a { color: var(--ink); text-decoration: none; }
+.reveal .credits-own { position: absolute; left: 110px; bottom: 60px; font-size: 22px; color: var(--ink-dim); }
+
+/* Speaker-view/PDF niceties */
+.reveal .slide-number { display: none; }

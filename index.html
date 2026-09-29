@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why Are We Still Inventing Ships?</title>
+  <meta name="description" content="Gabriel Weymouth, TU Delft — a public talk on ships, scaling, simulation, AI and bio-inspired design.">
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- Beats convention: the first .media layer is always shown; later layers with
+     class "beat fragment" fade in over it. File names are the asset checklist. -->
+
+<!-- ============================ ACT I ============================ -->
+
+<!-- 1 -->
+<section class="title">
+  <div class="media" data-file="assets/vid/kiki_rl_sail_18-42.mp4" data-start="2" data-end="22" data-alt="Kiki's boat sailing itself"></div>
+  <div class="scrim"></div>
+  <div class="headline">
+    <h1>Why are we still inventing ships?</h1>
+    <div class="byline"><b>Gabriel Weymouth</b> · TU Delft</div>
+  </div>
+  <aside class="notes">Don't explain the video. Ask the question and let it hang.</aside>
+</section>
+
+<!-- 2 -->
+<section>
+  <div class="split">
+    <div class="media contain" data-file="assets/img/pesse_canoe.jpg" data-alt="Pesse canoe in the Drents Museum"><div class="tag">The Pesse canoe · c. 8000 BC</div></div>
+    <div class="media contain" data-file="assets/img/doggerland.jpg" data-view="inset(51.2% 0 0 0)" data-alt="Doggerland: the North Sea as dry land"><div class="tag">Doggerland, 8,200 and 7,000 years ago</div></div>
+  </div>
+  <div class="scrim top"></div>
+  <h2 class="headline top">The oldest boat in the world was found in the Netherlands</h2>
+  <aside class="notes">Found in 1955 near Hoogeveen, about 10,000 years old [verify]. Someone here invented this. And the North Sea was land: you could walk to England.</aside>
+</section>
+
+<section>
+  <h2 class="headline top">Ten thousand years of inventing ships</h2>
+  <div class="figure" data-figure="timeline"></div>
+  <aside class="notes">Draw the whole story on one line. [click] Sails, about 5,000 years ago [verify]. [click] And everything else in this talk — steam, Brunel, Froude, computers, AI — is this sliver at the end.</aside>
+</section>
+
+<!-- 3 -->
+<section>
+  <div class="cover fragment fade-out" data-fragment-index="0">
+    <div class="media" data-file="assets/img/batavia.jpg" data-alt="Replica of the VOC ship Batavia (1628) under sail"></div>
+    <div class="scrim top"></div>
+  </div>
+  <h2 class="headline top">Sails made ships bigger and voyages longer</h2>
+  <div class="figure" data-figure="voc-route"></div>
+  <aside class="notes">The Batavia: a VOC ship of 1628 — this is the replica built in Lelystad. [click] Ships like her connected Texel to Batavia, today's Jakarta. [click] About eight months each way [verify]. And the trick was the wind: sail south, then let the Roaring Forties blow you east.</aside>
+</section>
+
+<!-- 4–5: steam, hunger, and Brunel's bet -->
+<section>
+  <div class="media" data-file="assets/img/great_eastern.jpg" data-alt="The Great Eastern, broadside"></div>
+  <div class="media beat fragment" data-fragment-index="0" data-file="assets/img/stokers.jpg" data-alt="Stoker shovelling coal into a boiler"></div>
+  <div class="scrim top"></div>
+  <h2 class="headline top">Steam made ships fast, reliable — and <em>hungry</em><span class="sub big fragment" data-fragment-index="0">Coal takes up space, and it isn't free</span></h2>
+  <aside class="notes">Steam: fast and reliable, no waiting for the wind. [click] But steam is HUNGRY — say it deliberately, we come back to it. Coal takes up space and isn't free: a ship to Australia had to stop for coal.</aside>
+</section>
+
+<section>
+  <div class="cover fragment fade-out" data-fragment-index="0">
+    <div class="media" data-file="assets/img/brunel_chains.jpg" data-alt="Brunel in front of the launching chains (Howlett, 1857)" data-pos="50% 25%"></div>
+    <div class="scrim top"></div>
+  </div>
+  <h2 class="headline top">Brunel's bet: bigger ships are more efficient</h2>
+  <div class="figure" data-figure="square-cube"></div>
+  <aside class="notes">Isambard Kingdom Brunel, in front of the launching chains of his biggest ship. [click] His bet: double the length of a box. [click] Its surface, which is what the water drags on, goes up 4×; its volume, for cargo and coal, goes up 8×. [click] So a bigger ship carries more for each unit of drag — enough coal for the whole trip.</aside>
+</section>
+
+<section>
+  <h2 class="headline top">So Brunel built the biggest ship ever</h2>
+  <div class="figure" data-figure="great-eastern"></div>
+  <aside class="notes">The Pesse canoe, the Batavia, and Brunel's first two ships — each the biggest in the world when launched. Then [click] he doubled it — twice the Great Britain. It hit its design speed — an amazing feat. It was also a commercial disaster. [verify dimensions and speeds]</aside>
+</section>
+
+<!-- ============================ ACT II ============================ -->
+
+<!-- 6 -->
+<section>
+  <div class="media" data-file="assets/img/froude.jpg" data-alt="William Froude portrait" data-pos="50% 25%"></div>
+  <div class="media beat fragment" data-file="assets/img/torquay_tank.jpg" data-alt="Froude's test tank at Torquay (1872)"></div>
+  <div class="scrim"></div>
+  <h2 class="headline">You can't double a ship's size by trial and error</h2>
+  <aside class="notes">One mistake costs the whole ship. So Froude asked: how do we test the ship before it exists?</aside>
+</section>
+
+<!-- 7 -->
+<section>
+  <h2 class="headline top">Froude's insight: don't just scale the ship — <em>scale the physics</em></h2>
+  <div class="figure" data-figure="waves"></div>
+  <aside class="notes">Waves are the physics that matter for a ship. An ocean swell 200 m long rolls along at 60 km/h, as fast as a car. A ripple a few cm long crawls. [click] Longer waves travel faster — and nothing else matters, just gravity and length.</aside>
+</section>
+
+<section>
+  <h2 class="headline top">Scale the physics: balance ship speed and wave speed</h2>
+  <div class="figure" data-figure="froude"></div>
+  <div class="wordeq warm fragment" data-fragment-index="2">Froude number <i>=</i> 0.4 × <span class="frac"><span>ship speed</span><span>speed of a wave as long as the ship</span></span></div>
+  <div class="overlay fragment" data-fragment-index="4">
+    <div class="split">
+      <div class="media" data-file="assets/img/Tow Tank power boat.jpg" data-alt="Power-boat model in a towing tank"><div class="tag">Model</div></div>
+      <div class="media" data-file="assets/img/Voltari-Patrol-26-RIB-front_jpg.webp" data-alt="Full-scale patrol boat at speed"><div class="tag">Full scale</div></div>
+    </div>
+    <div class="scrim top"></div><div class="scrim"></div>
+    <div class="caption medium fragment" data-fragment-index="5">Matching physical scale became a foundational idea in science!</div>
+  </div>
+  <aside class="notes">A big ship: 200 m long, 15.5 m/s. [click] A little model: 100× smaller, 2 m long. [click] Match the Froude number — the ship's speed against the speed of a wave as long as the ship. Waves as long as the model are only 10× slower, so tow it 10× slower. Both 0.35. [click] And you get matching waves: zoom in and it's the same picture. Plant the word: "Notice: calm water, constant speed. Engineers call this STEADY. Remember that word." [click] Model and full scale, the same waves. And matching physical scale became a foundational idea in science.</aside>
+</section>
+
+<!-- 8 -->
+<section>
+  <div class="cover fragment fade-out" data-fragment-index="0">
+    <div class="media" data-file="assets/img/wind_tunnel.jpg" data-alt="Submarine model in a high-pressure wind tunnel"></div>
+    <div class="scrim top"></div>
+  </div>
+  <h2 class="headline top">Submarines don't make waves: so balance fluid mass and friction</h2>
+  <div class="figure" data-figure="dense-air"></div>
+  <div class="wordeq">Reynolds number <i>=</i> <span class="frac"><span>fluid mass × speed × size</span><span>fluid friction</span></span></div>
+  <aside class="notes">Find the important ratio, and balance it. A submarine makes no waves, so gravity drops out. [click] What matters now is the fluid's mass compared to its friction. Air has a lot of friction for its mass. But squeeze it and it gets heavier while its friction stays the same. [click] At 15 bar it behaves like water. [click] Go further and it beats water: now a small, fast model sees the same flow as a full-size submarine.</aside>
+</section>
+
+<section>
+  <div class="cover fragment fade-out" data-fragment-index="0">
+    <div class="media" data-file="assets/img/centrifuge.jpg" data-alt="Geotechnical centrifuge"></div>
+    <div class="scrim top"></div>
+  </div>
+  <h2 class="headline top">Geological process too slow? Turn up gravity!</h2>
+  <div class="figure" data-figure="centrifuge"></div>
+  <div class="wordeq">soil pressure <i>=</i> soil mass × <b>gravity</b> × <b>depth</b></div>
+  <aside class="notes">Soil and dikes: you can't wait years to see a dike settle. [click] Soil behaves according to the pressure it's under. Make the model 100× shallower, and you need 100× gravity to match. Spin it: 134 turns a minute on a 5 m arm. [click] And time scales too: ten years of a dike settling happen overnight.</aside>
+</section>
+
+<!-- G.I. Taylor fireball: cut for time; uncomment to restore.
+<section>
+  <div class="cover fragment fade-out" data-fragment-index="0">
+    <div class="media" data-file="assets/img/trinity_fireball.jpg" data-alt="Trinity fireball photo with timestamp and scale bar (1945)"></div>
+    <div class="scrim top"></div>
+  </div>
+  <h2 class="headline top">The same thinking can even reveal a secret</h2>
+  <div class="figure" data-figure="fireball"></div>
+  <div class="wordeq">energy <i>≈</i> <span class="frac"><span>air heaviness × radius⁵</span><span>time²</span></span></div>
+  <aside class="notes">1945: the US published photos of the first atomic test, with a clock and a scale bar. The energy was top secret. [click] G.I. Taylor asked: what can the fireball's size depend on? Only energy, air heaviness and time. There's only one way to combine them. [click] Read the radius and time off the photos, and out comes the energy — close to the secret number [verify: Taylor ≈ 17 kt vs actual ≈ 20 kt, published 1950].</aside>
+</section>
+-->
+
+<!-- 9 -->
+<section>
+  <div class="cover fragment fade-out" data-fragment-index="0">
+    <div class="split">
+      <div class="media" data-file="assets/img/mouse.jpg" data-alt="Mouse"></div>
+      <div class="media" data-file="assets/img/elephant_asian.jpg" data-alt="Asian elephant"></div>
+    </div>
+    <div class="scrim top"></div>
+  </div>
+  <h2 class="headline top">Life follows scaling laws too</h2>
+  <div class="figure" data-figure="kleiber"></div>
+  <aside class="notes">A mouse and an elephant. [click] Mouse to elephant, one straight line: the energy an animal burns grows like mass to the three-quarters (Kleiber, 1932). [click] In 1962, an elephant called Tusko, at the Lincoln Park Zoo in Oklahoma City, was given a dose of LSD scaled up by body weight — the dashed line. About 20× too much, and it killed him.</aside>
+</section>
+
+<!-- 11 -->
+<section>
+  <div class="media inset" data-file="assets/img/rough_wall_collapsed_surfaces.png" data-alt="Machine-discovered scaling for rough-wall friction and heat flux"></div>
+  <h2 class="headline top">Now AI is being used to find the scaling from data automatically</h2>
+  <div class="caption small">Given only data, the machine found the ratios that matter for friction on a rough wall</div>
+  <aside class="notes">Froude found his rule by insight. Can a machine find the next one? [PhD student's work.] Even a rough rule it found for friction on a wall works nicely for ships — and friction is a big part of a ship's drag. Keep it short (~1.5 min).</aside>
+</section>
+
+<!-- ============================ ACT III ============================ -->
+
+<!-- 12: bridge back to ships, and into wind -->
+<section>
+  <h2 class="headline top">Going a little slower is much better for the environment</h2>
+  <div class="figure" data-figure="speed-cubed"></div>
+  <div class="footnote">Marine diesel engines emit 20 million tonnes of nitrogen oxides every year: 50% of the pollutants in coastal regions</div>
+  <aside class="notes">One more scaling rule, back on a ship. Drag grows with speed squared, and power is drag times speed: so engine power grows with speed CUBED. Steam made ships fast — and fast is hungry. [click] Go 20% slower: half the engine power, and about a third less fuel for the whole trip, even though it takes longer. Shipping really did this after 2008: "slow steaming" [verify]. [click] Half speed: an eighth of the power. That matters (on screen from the start): marine diesels emit about 20 million tonnes of nitrogen oxides a year [source: marine diesel review, White Rose eprint 164697]. [click] And once the engine needs so much less, the wind can do a real share of the work.</aside>
+</section>
+
+<!-- 14 -->
+<section>
+  <div class="media" data-file="assets/img/flettner.jpg" data-alt="Cargo ship fitted with Flettner rotors"></div>
+  <div class="media beat fragment" data-file="assets/vid/wl_rotor_0-10.mp4" data-start="4" data-end="10" data-alt="Simulation of a spinning rotor sail in the wind"></div>
+  <div class="media beat fragment" data-file="assets/img/ventofoil.webp" data-alt="eConowind VentoFoil suction wings (Dutch)"></div>
+  <div class="media beat fragment" data-file="assets/img/kite_ship.jpg" data-alt="Kite-towed cargo ship"><div class="scrim"></div><div class="caption medium">No one knows how to sail a 400 m ship!</div></div>
+  <div class="scrim top"></div>
+  <h2 class="headline top">Wind is back: free, clean — and never <em>hungry</em></h2>
+  <aside class="notes">Call back to "hungry." Full circle to sails, but with 150 years of science behind them. [click] A rotor sail: a spinning cylinder that turns wind into push (simulation). [click] Suction wings from eConowind, a Dutch company. [click] Kites. The catch: wind is free, but fickle — and no one knows how to sail a 400 m ship!</aside>
+</section>
+
+<!-- 15 -->
+<section>
+  <div class="media card" data-file="assets/img/robot_optimist_overview.JPG" data-alt="Kiki Bink's autonomous sailing robot"></div>
+  <div class="media beat fragment" data-fragment-index="0" data-file="assets/vid/kiki_rl_sail_18-42.mp4" data-start="2" data-end="22" data-alt="Kiki's boat sailing itself (reinforcement learning)"></div>
+  <div class="scrim"></div>
+  <h2 class="headline">Can we teach the ship to sail itself? <em class="fragment" data-fragment-index="0">Yes!</em></h2>
+  <aside class="notes">Wind is fickle: sailing well takes skill. Can a boat learn it? Nobody programmed it to sail — it learned by trial and error (reinforcement learning). Exactly what Froude said you couldn't do with a real ship. A simulator plus AI makes trial and error cheap again.</aside>
+</section>
+
+<section>
+  <h2 class="headline top">The AI sailor learned to sail by trial and error</h2>
+  <div class="figure" data-figure="rl-loop"></div>
+  <aside class="notes">Reinforcement learning: try something, see what happens, score it, adjust. Millions of times, in a simulator. Froude said you can't do trial and error with a real ship. With a simulator you can.</aside>
+</section>
+
+<!-- ============================ ACT IV ============================ -->
+
+<!-- 16 -->
+<section>
+  <div class="media card" data-file="assets/vid/kiki1.MOV" data-start="25" data-end="40" data-alt="Kiki's boat nearly stuck mid-tack"></div>
+  <div class="media beat fragment" data-file="assets/img/ever_given.jpg" data-alt="Ever Given grounded in the Suez Canal"></div>
+  <div class="media beat fragment" data-file="assets/vid/BreakingWave.mp4" data-alt="Own simulation: breaking waves"></div>
+  <div class="scrim"></div>
+  <h2 class="headline"><em>Unsteady</em> things can still surprise us</h2>
+  <aside class="notes">Pay off STEADY. Kiki's boat, nearly stuck mid-tack (optional first beat — cut it if it drags). [click] Over-correcting a turn. And big waves. Every one is things changing faster than the ship can respond — exactly where towing tanks, built for steady, are weakest. [click] Simulations can now follow flow that changes moment to moment, like these breaking waves.</aside>
+</section>
+
+<!-- 17 -->
+<section>
+  <div class="media" data-file="assets/img/plesiosaur.jpg" data-alt="Plesiosaur skeleton: four flippers"></div>
+  <div class="scrim"></div>
+  <h2 class="headline">Nature perfected unsteady swimming 500 million years ago</h2>
+  <aside class="notes">Animals don't avoid unsteady flow. They use it. Look at the four flippers.</aside>
+</section>
+
+<section>
+  <h2 class="headline top">Swimmers and flyers all found the same ratio</h2>
+  <div class="figure" data-figure="strouhal"></div>
+  <div class="wordeq">Strouhal number <i>=</i> <span class="frac"><span>flap rate × flap size</span><span>speed</span></span></div>
+  <aside class="notes">Find the important ratio, one more time. For flapping it's how big the flap is compared to how far you travel per flap. [click] Dolphins, sharks, birds, bats, insects: all cruise in the same narrow band [verify: Taylor, Nudds &amp; Thomas 2003]. Evolution found the ratio before we did.</aside>
+</section>
+
+<!-- 13: simulation shows how animals use unsteady flow -->
+<section>
+  <div class="media" data-file="assets/vid/WL dolphin swim.mp4" data-alt="Own simulation: swimming dolphin"></div>
+  <div class="scrim"></div>
+  <h2 class="headline">Simulations let us <em>see</em> how animals use unsteady flow</h2>
+  <aside class="notes">A dolphin doesn't fight its own wake — it uses it. (Spare clips: whale tail, dam break, propeller, whale.gif.)</aside>
+</section>
+
+<!-- 18 -->
+<section>
+  <div class="media" data-file="assets/vid/atlantis underwater.mp4" data-alt="Atlantis swimming, underwater view"></div>
+  <div class="scrim"></div>
+  <h2 class="headline">Simple robot mimics plesiosaur swimming</h2>
+  <aside class="notes">Atlantis: a four-flippered robot plesiosaur (I wanted to call it Nessie).</aside>
+</section>
+
+<section>
+  <div class="media">
+    <div class="split">
+      <div class="media contain" data-file="assets/vid/atlantis straight swim.MOV" data-alt="Atlantis swimming straight, from above"></div>
+      <div class="media" data-file="assets/vid/atlantis turn.mp4" data-alt="Atlantis turning in place, from above"></div>
+    </div>
+    <div class="caption tagline right">It can turn in place!</div>
+  </div>
+  <div class="media card low beat fragment" data-file="assets/vid/jellyDemoBiot.mp4" data-view="inset(0 0 28% 0)" data-alt="Own simulation: jellyfish"><div class="caption tagline">Jellyfish are the most efficient swimmers in nature</div></div>
+  <div class="media beat fragment" data-file="assets/vid/squid robot.mp4" data-start="5" data-end="16" data-alt="Squid-inspired soft underwater robot"><div class="scrim"></div><div class="caption tagline">…and this is the most efficient underwater robot!</div></div>
+  <div class="scrim top"></div>
+  <h2 class="headline top">Being flexible improves efficiency and manoeuvring</h2>
+  <aside class="notes">Straight swimming — and it can turn in place, which no ship can do. [click] Jellyfish: nothing but a flexible bell, and the most efficient swimmers in nature. [click] And this squid-like robot is the most efficient underwater robot.</aside>
+</section>
+
+<!-- ============================ CLOSE ============================ -->
+
+<!-- 19 -->
+<section>
+  <div class="split">
+    <div class="media contain" data-file="assets/img/pesse_canoe.jpg" data-alt="Pesse canoe (callback)"></div>
+    <div class="media contain" data-file="assets/vid/kiki_rl_sail_18-42.mp4" data-start="2" data-end="22" data-alt="Kiki's boat sailing itself (callback to the title)"></div>
+  </div>
+  <div class="scrim top"></div><div class="scrim"></div>
+  <h2 class="headline top">Why are we still inventing ships?</h2>
+  <h2 class="headline fragment">After ten thousand years, there's still so much more to learn</h2>
+  <aside class="notes">The first boat, and one that taught itself to sail. Ask the title question again. [click] We keep inventing ships because we still don't fully understand the water they move through — and that's the exciting part.</aside>
+</section>
+
+<!-- 20 -->
+<section>
+  <div class="thanks">
+    <h1>Thank you</h1>
+    <p>Gabriel Weymouth<br>Professor of Ship Hydromechanics, TU Delft</p>
+  </div>
+  <div class="qr"><div class="media" data-file="assets/img/qr_slides.png" data-alt="QR code to the online slides"></div></div>
+  <img class="logo" src="assets/img/tudelft_logo.svg" alt="TU Delft">
+</section>
+
+<section class="credits">
+  <h2 class="headline top">Image credits</h2>
+  <ul class="credits-list"></ul>
+  <p class="credits-own">Simulations (WaterLily.jl) and robot videos: Weymouth group, TU Delft. Graphics: made for this talk.</p>
+</section>
+
+</div></div>
+
+<script src="vendor/reveal/reveal.js"></script>
+<script src="vendor/reveal/plugin/notes/notes.js"></script>
+<script src="js/credits.js"></script>
+<script src="vendor/topojson/topojson-client.min.js"></script>
+<script src="vendor/world-atlas/land-110m.js"></script>
+<script src="js/figures.js"></script>
+<script src="js/deck.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1920, height: 1080, margin: 0, minScale: 0.1, maxScale: 3,
+    center: false, controls: false, progress: false, slideNumber: false,
+    hash: true, transition: 'fade', transitionSpeed: 'slow', backgroundTransition: 'fade',
+    autoPlayMedia: true, preloadIframes: true, pdfSeparateFragments: false,
+    plugins: [RevealNotes],
+  });
+</script>
+</body>
+</html>
