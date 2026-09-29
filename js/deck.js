@@ -97,6 +97,15 @@
 
   document.querySelectorAll('.media[data-file]').forEach(build);
 
+  // QR codes: <div class="qr" data-qr="URL">, drawn as SVG by vendor/qrcode (MIT)
+  document.querySelectorAll('.qr[data-qr]').forEach(div => {
+    if (!window.qrcode) return;
+    const q = qrcode(0, 'M');
+    q.addData(div.dataset.qr);
+    q.make();
+    div.innerHTML = q.createSvgTag({ cellSize: 8, margin: 2, scalable: true });
+  });
+
   // Credits slide: every credited file that the deck actually uses, in slide order
   const list = document.querySelector('.credits-list');
   if (list) {

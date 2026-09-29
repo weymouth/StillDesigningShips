@@ -199,7 +199,9 @@ body.hide-placeholders .reveal .ph { display: none; }
 .reveal .thanks h1 { font-size: 120px; font-weight: 400; }
 .reveal .thanks p { font-size: 44px; color: var(--ink-dim); margin: 36px 0 0; line-height: 1.4; }
 .reveal .thanks a { color: var(--cool); }
-.reveal .qr { position: absolute; right: 150px; top: 290px; width: 420px; height: 420px; }
+.reveal .qr { position: absolute; right: 150px; top: 250px; width: 420px; height: 420px; background: #fff; border-radius: 16px; padding: 14px; box-sizing: border-box; }
+.reveal .qr svg { width: 100%; height: 100%; display: block; }
+.reveal .qr-url { position: absolute; right: 150px; top: 690px; width: 420px; margin: 0; text-align: center; font-size: 26px; color: var(--ink-dim); }
 .reveal .qr .ph { inset: 0; }
 .reveal .logo { position: absolute; left: 110px; bottom: 90px; height: 90px; }
 
