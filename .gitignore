@@ -1,5 +1,4 @@
 # Not part of the published deck
-slide_example/
 .claude/
 desktop.ini
 __pycache__/
@@ -14,18 +13,3 @@ assets/vid/whale_tail_crop.mp4
 assets/vid/kiki2 - Copy.MOV
 assets/vid/whale.gif
 assets/vid/LifeBoat.gif
-assets/img/model_waves.jpg
-assets/img/ship_waves.jpg
-assets/img/tall_ship.jpg
-assets/img/paddle_steamer.jpg
-assets/img/pesse_title.jpg
-assets/img/broken_ship.jpg
-assets/img/duck.png
-assets/img/WASPonderzoek_SR_4132_WEB.jpg
-assets/img/froude_tank.jpg
-assets/img/eastern.jpg
-assets/img/brunel.jpg
-assets/img/BAR wing sail.jpg
-assets/img/time_cover_atomic.jpg
-assets/img/poweboat_wake.jpg
-assets/img/powerboat.webp
