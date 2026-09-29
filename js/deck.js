@@ -136,6 +136,14 @@
     }));
   });
 
+  // Light theme: ?light in the URL, or "L" to toggle while presenting.
+  // (an attribute, not a class: reveal.js resets <html>'s class list on start)
+  const root = document.documentElement;
+  if (/[?&]light(=|&|$)/.test(location.search)) root.dataset.theme = 'light';
+  Reveal.on('ready', () => Reveal.addKeyBinding(
+    { keyCode: 76, key: 'L', description: 'Toggle light theme' },
+    () => { root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light'; }));
+
   // "H" hides placeholders, for rehearsing with a partially filled deck.
   Reveal.on('ready', () => Reveal.addKeyBinding(
     { keyCode: 72, key: 'H', description: 'Toggle placeholders' },

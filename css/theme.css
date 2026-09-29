@@ -14,10 +14,29 @@
   --rule: #2a2f35;
   --warm: #f0a53c;        /* amber: the hero series / emphasis */
   --cool: #00a6d6;        /* TU Delft cyan: the contrast series */
+  --shade: 4, 6, 9;       /* rgb of scrims and text shadows (the background, over photos) */
+  --credit: rgba(242, 238, 230, 0.6);
+  --water: #1d3a4a; --land: #1d2b35; --sea: #0e3242;
+  --ph1: #0d1117; --ph2: #10151c;
+  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   --serif: "Libertinus Serif", Georgia, serif;
 }
 
 html, body, .reveal, .reveal-viewport { background: var(--bg); }
+
+/* Light theme, for rooms that can't be darkened: ?light in the URL, or press L.
+   Photos keep their colours; the scrims behind headlines become a pale haze. */
+html[data-theme="light"] {
+  --bg: #f5f3ee; --ink: #15181c; --ink-dim: #4f5357; --ink-faint: #8f9295; --rule: #d6d7d8;
+  --warm: #b3650a; --cool: #00739a;
+  --shade: 245, 243, 238;
+  --credit: rgba(21, 24, 28, 0.65);
+  --water: #9fc3d4; --land: #d9dddf; --sea: #cfe4ee;
+  --ph1: #e9e6df; --ph2: #e2dfd8;
+  --card-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+}
+html[data-theme="light"] .reveal .scrim.top { background: linear-gradient(to bottom, rgba(var(--shade), 0.94) 0%, rgba(var(--shade), 0.72) 22%, rgba(var(--shade), 0) 46%); }
+html[data-theme="light"] .reveal .scrim { background: linear-gradient(to top, rgba(var(--shade), 0.94) 0%, rgba(var(--shade), 0.7) 24%, rgba(var(--shade), 0) 50%); }
 .reveal { font-family: var(--serif); color: var(--ink); font-size: 44px; }
 .reveal .slides { text-align: left; }
 .reveal .slides > section { width: 1920px; height: 1080px; padding: 0; }
@@ -61,7 +80,7 @@ html, body, .reveal, .reveal-viewport { background: var(--bg); }
 .reveal .media.card { display: flex; align-items: center; justify-content: center; }
 .reveal .media.card > img, .reveal .media.card > video {
   width: auto; height: 74%; max-width: 88%; margin-bottom: 11%; object-fit: contain;
-  border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  border-radius: 14px; box-shadow: var(--card-shadow);
 }
 
 /* Side-by-side pair: <div class="split"> <div class="media">…</div> ×2 </div> */
@@ -70,14 +89,14 @@ html, body, .reveal, .reveal-viewport { background: var(--bg); }
 .reveal .split .tag {
   position: absolute; bottom: 64px; right: 48px; z-index: 6;
   font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
-  text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+  text-shadow: 0 2px 12px rgba(var(--shade), 0.8);
 }
 
 /* Photo credit, bottom-right of its own media layer */
 .reveal .credit {
   position: absolute; right: 28px; bottom: 18px; z-index: 3;
-  font-size: 18px; color: rgba(242,238,230,0.6); font-style: italic;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+  font-size: 18px; color: var(--credit); font-style: italic;
+  text-shadow: 0 1px 6px rgba(var(--shade), 0.9);
 }
 .reveal .credit a { color: var(--ink); text-decoration: none; }
 
@@ -88,7 +107,7 @@ html, body, .reveal, .reveal-viewport { background: var(--bg); }
 .reveal .overlay.fragment, .reveal .cover.fragment { transition: opacity 0.8s ease, visibility 0.8s; }
 .reveal .caption {
   position: absolute; z-index: 5; left: 110px; bottom: 96px;
-  font-size: 110px; line-height: 1; color: var(--warm); text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+  font-size: 110px; line-height: 1; color: var(--warm); text-shadow: 0 2px 24px rgba(var(--shade), 0.6);
 }
 
 /* Beats: stacked layers, each new fragment fades in over the previous one */
@@ -99,7 +118,7 @@ html, body, .reveal, .reveal-viewport { background: var(--bg); }
   position: absolute; inset: 40px; display: flex; flex-direction: column;
   justify-content: center; align-items: center; text-align: center; gap: 22px;
   border: 3px dashed var(--ink-faint); border-radius: 18px;
-  background: repeating-linear-gradient(135deg, #0d1117 0 24px, #10151c 24px 48px);
+  background: repeating-linear-gradient(135deg, var(--ph1) 0 24px, var(--ph2) 24px 48px);
   color: var(--ink-dim);
 }
 .reveal .split .ph { inset: 24px; }
@@ -111,13 +130,13 @@ body.hide-placeholders .reveal .ph { display: none; }
 /* ---------- Headlines --------------------------------------------------- */
 .reveal .scrim {
   position: absolute; inset: 0; z-index: 4; pointer-events: none;
-  background: linear-gradient(to top, rgba(4,6,9,0.88) 0%, rgba(4,6,9,0.55) 26%, rgba(4,6,9,0) 50%);
+  background: linear-gradient(to top, rgba(var(--shade), 0.88) 0%, rgba(var(--shade), 0.55) 26%, rgba(var(--shade), 0) 50%);
 }
-.reveal .scrim.top { background: linear-gradient(to bottom, rgba(4,6,9,0.85) 0%, rgba(4,6,9,0.45) 24%, rgba(4,6,9,0) 44%); }
+.reveal .scrim.top { background: linear-gradient(to bottom, rgba(var(--shade), 0.85) 0%, rgba(var(--shade), 0.45) 24%, rgba(var(--shade), 0) 44%); }
 
 .reveal h1, .reveal h2 {
   font-family: var(--serif); color: var(--ink); text-transform: none;
-  letter-spacing: -0.005em; margin: 0; text-shadow: 0 2px 24px rgba(0,0,0,0.55);
+  letter-spacing: -0.005em; margin: 0; text-shadow: 0 2px 24px rgba(var(--shade), 0.55);
 }
 .reveal .headline {
   position: absolute; z-index: 5; left: 110px; bottom: 96px; max-width: 1700px;
@@ -145,7 +164,7 @@ body.hide-placeholders .reveal .ph { display: none; }
 .reveal svg .cool  { fill: var(--cool); }
 .reveal svg .axis  { stroke: var(--ink-faint); stroke-width: 2; fill: none; }
 .reveal svg .grid  { stroke: var(--rule); stroke-width: 1.5; fill: none; }
-.reveal svg .water { stroke: #1d3a4a; stroke-width: 2; fill: none; }
+.reveal svg .water { stroke: var(--water); stroke-width: 2; fill: none; }
 .reveal svg .hull  { fill: var(--ink); }
 .reveal svg .rig { stroke: var(--ink); stroke-width: 3; fill: none; }
 .reveal svg .hull.hero { fill: var(--warm); }
@@ -166,14 +185,14 @@ body.hide-placeholders .reveal .ph { display: none; }
 .reveal svg g.fragment:not(.visible) .bar.vert { transform: scaleY(0); }
 
 /* Map */
-.reveal svg .land { fill: #1d2b35; }
+.reveal svg .land { fill: var(--land); }
 .reveal svg .route { fill: none; stroke: var(--warm); stroke-width: 5; stroke-linecap: round;
   stroke-dasharray: 1; stroke-dashoffset: 1; }
 .reveal svg g.fragment.visible .route { animation: draw-route 4.5s ease-in-out 0.3s forwards; }
 @keyframes draw-route { to { stroke-dashoffset: 0; } }
 
 /* Water */
-.reveal svg .sea { fill: #0e3242; fill-opacity: 0.88; }
+.reveal svg .sea { fill: var(--sea); fill-opacity: 0.88; }
 .reveal svg .surface { fill: none; stroke: var(--cool); stroke-width: 4; stroke-linejoin: round; }
 .reveal svg .drift { animation: drift var(--T) linear infinite; }
 @keyframes drift { from { transform: translateX(calc(-1 * var(--dx))); } to { transform: translateX(0); } }

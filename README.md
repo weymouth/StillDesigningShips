@@ -16,6 +16,7 @@ Then open <http://localhost:8000>. Use this rather than `python -m http.server`:
 | S | speaker view (notes + timer) |
 | F | fullscreen |
 | H | hide placeholders (rehearse with a partly filled deck) |
+| L | toggle the light theme (for rooms that can't be darkened); or open `?light`, e.g. <http://localhost:8000/?light> |
 | B / . | black screen |
 
 PDF backup: open `http://localhost:8000/?print-pdf` in Chrome → Print → Save as PDF (landscape, no margins, background graphics on).
