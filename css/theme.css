@@ -86,11 +86,15 @@ html[data-theme="light"] .reveal .scrim { background: linear-gradient(to top, rg
 /* Side-by-side pair: <div class="split"> <div class="media">…</div> ×2 </div> */
 .reveal .split { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--bg); }
 .reveal .split > .media { position: relative; inset: auto; }
-.reveal .split .tag {
-  position: absolute; bottom: 64px; right: 48px; z-index: 6;
-  font-size: 30px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
-  text-shadow: 0 2px 12px rgba(var(--shade), 0.8);
+/* Name and date of a picture, bottom-right above its credit */
+.reveal .tag {
+  position: absolute; bottom: 52px; right: 28px; z-index: 6; max-width: 900px; text-align: right;
+  font-size: 24px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;
+  color: #fff;   /* always white on a black outline: it sits on photos in either theme */
+  -webkit-text-stroke: 2px #000; paint-order: stroke fill;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9), 0 1px 3px #000;
 }
+.reveal .split .tag { right: 48px; }
 
 /* Photo credit, bottom-right of its own media layer */
 .reveal .credit {
@@ -132,6 +136,7 @@ body.hide-placeholders .reveal .ph { display: none; }
   position: absolute; inset: 0; z-index: 4; pointer-events: none;
   background: linear-gradient(to top, rgba(var(--shade), 0.88) 0%, rgba(var(--shade), 0.55) 26%, rgba(var(--shade), 0) 50%);
 }
+.reveal .scrim:not(.top) { -webkit-mask-image: linear-gradient(to right, #000 55%, transparent 88%); mask-image: linear-gradient(to right, #000 55%, transparent 88%); }
 .reveal .scrim.top { background: linear-gradient(to bottom, rgba(var(--shade), 0.85) 0%, rgba(var(--shade), 0.45) 24%, rgba(var(--shade), 0) 44%); }
 
 .reveal h1, .reveal h2 {

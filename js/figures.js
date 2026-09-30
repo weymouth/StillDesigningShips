@@ -139,29 +139,46 @@
   };
 
   // ---------------------------------------------------------------------
-  // Timeline, 8000 BC → today, linear in time. The point: everything from
-  // steam onwards is a sliver at the right-hand end. [verify: first sails]
+  // Timeline, 8000 BC → today, linear in time. Top row: how boats are moved
+  // and steered; bottom row: how the hull is built. The point: steam and iron
+  // are a sliver at the right-hand end. Dates are signposts, not firsts, and from
+  // all over: reed boats (Mesopotamia), oars and rudder (China), planks and sail
+  // (Egypt), keel (Mediterranean).
   FIGURES['timeline'] = svg => {
-    const Y = 380, x0 = 80, x1 = 1620, t0 = -8000, t1 = 2030;
+    const Y = 360, x0 = 80, x1 = 1620, t0 = -8000, t1 = 2030;
     const X = yr => x0 + (yr - t0) / (t1 - t0) * (x1 - x0);
     el('line', { x1: x0, x2: x1, y1: Y, y2: Y, class: 'axis', 'stroke-width': 4 }, svg);
     [-8000, -6000, -4000, -2000, 0, 2000].forEach(yr => {
       el('line', { x1: X(yr), x2: X(yr), y1: Y - 10, y2: Y + 10, class: 'axis' }, svg);
-      text(svg, X(yr), Y + 56, yr < 0 ? `${-yr} BC` : yr === 0 ? '0' : `AD ${yr}`, { 'font-size': 30, class: 'dim', 'text-anchor': 'middle' });
+      if (yr === -4000 || yr === 2000) return;   // an event stem sits here
+      text(svg, X(yr), Y + 44, yr < 0 ? `${-yr} BC` : yr === 0 ? '0' : `AD ${yr}`, { 'font-size': 26, class: 'faint', 'text-anchor': 'middle' });
     });
-    function event(g, yr, label, note) {
-      el('line', { x1: X(yr), x2: X(yr), y1: Y, y2: Y - 110, class: 'axis' }, g);
-      el('circle', { cx: X(yr), cy: Y, r: 12, class: 'dot' }, g);
-      text(g, X(yr), Y - 170, label, { 'font-size': 44, 'text-anchor': 'middle' });
-      text(g, X(yr), Y - 128, note, { 'font-size': 30, class: 'dim', 'text-anchor': 'middle' });
+    text(svg, x0 - 16, Y - 230, 'MOVING & STEERING', { 'font-size': 24, class: 'faint', 'letter-spacing': '0.14em' });
+    text(svg, x0 - 16, Y + 250, 'BUILDING THE HULL', { 'font-size': 24, class: 'faint', 'letter-spacing': '0.14em' });
+
+    // one row above the line, one below; anchor keeps edge labels on the canvas
+    function event(g, yr, label, note, up, anchor = 'middle', cls = '') {
+      const x = X(yr), tx = anchor === 'end' ? x + 16 : anchor === 'start' ? x - 16 : x;
+      el('line', { x1: x, x2: x, y1: Y, y2: up ? Y - 100 : Y + 100, class: 'axis' }, g);
+      el('circle', { cx: x, cy: Y, r: 12, class: 'dot' }, g);
+      const yl = up ? Y - 150 : Y + 150;
+      text(g, tx, yl, label, { 'font-size': 40, 'text-anchor': anchor, class: cls });
+      text(g, tx, yl + 38, note, { 'font-size': 28, class: 'dim', 'text-anchor': anchor });
     }
-    event(svg, -8000, 'Pesse canoe', 'c. 8000 BC');
-    event(frag(svg, 1), -3000, 'sails', 'c. 3000 BC');
-    const g = frag(svg, 2);
+    event(svg, -8000, 'Pesse canoe', 'c. 8000 BC', true, 'start');
+    const g0 = frag(svg, 1);
+    event(g0, -5500, 'reed boats', 'c. 5500 BC', false, 'end');
+    event(g0, -5000, 'oars', 'c. 5000 BC', true);
+    const g1 = frag(svg, 2);
+    event(g1, -4000, 'sewn plank boats', 'c. 4000 BC', false);
+    event(g1, -3500, 'the sail', 'c. 3500 BC', true, 'middle', 'warm');   // called out: wind comes back later
+    event(frag(svg, 3), -1500, 'keel & joints', 'c. 1500 BC', false);
+    event(frag(svg, 4), 100, 'rudder', 'c. AD 100', true);
+    const g = frag(svg, 5);
     el('rect', { x: X(1800), y: Y - 26, width: X(2026) - X(1800), height: 52, class: 'warm' }, g);
-    el('line', { x1: X(1913), x2: X(1913), y1: Y + 32, y2: Y + 110, class: 'axis' }, g);
-    text(g, X(2026), Y + 170, 'steam, Brunel, Froude,', { 'font-size': 40, class: 'warm', 'text-anchor': 'end' });
-    text(g, X(2026), Y + 220, 'computers, AI: the last 2%', { 'font-size': 40, class: 'warm', 'text-anchor': 'end' });
+    event(g, 1807, 'steam', 'AD 1807', true, 'end', 'warm');
+    event(g, 1843, 'iron hull', 'AD 1843', false, 'end', 'warm');
+    text(g, X(2026) + 16, Y + 250, 'modern era', { 'font-size': 40, class: 'warm', 'text-anchor': 'end' });
   };
 
   // ---------------------------------------------------------------------

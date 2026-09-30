@@ -24,12 +24,6 @@ window.CREDITS = {
     "license": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Stettin_1905-0553.jpg"
   },
-  "assets/img/great_eastern.jpg": {
-    "title": "File:Great Eastern Milford Haven 2.JPG",
-    "author": "Unknown photographer",
-    "license": "Public domain",
-    "source": "https://commons.wikimedia.org/wiki/File:Great_Eastern_Milford_Haven_2.JPG"
-  },
   "assets/img/brunel_chains.jpg": {
     "title": "File:Robert Howlett (Isambard Kingdom Brunel Standing Before the Launching Chains of the Great Eastern), The Metropolitan Museum of Art - restoration1.jpg",
     "author": "Robert Howlett",
@@ -101,13 +95,18 @@ window.CREDITS = {
     "title": "Machine-discovered rough-wall scaling",
     "author": "Manuel Cabral, TU Delft",
     "license": "used with permission",
-    "source": "https://manuel-cabral.github.io/mojito-presentation/",
-    "link": "manuel-cabral.github.io/mojito-presentation"
+    "source": "https://manuel-cabral.github.io/mojito-presentation/"
   },
   "assets/img/elephant_asian.jpg": {
     "title": "File:Asian elephant walking in Tad Lo river at golden hour, Bolaven Plateau, Laos.jpg",
     "author": "Basile Morin",
     "license": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Asian_elephant_walking_in_Tad_Lo_river_at_golden_hour,_Bolaven_Plateau,_Laos.jpg"
+  },
+  "assets/img/clermont.jpg": {
+    "title": "File:Clermont (steamboat).JPG",
+    "author": "Samuel Ward Stanton",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Clermont_(steamboat).JPG"
   }
 };
