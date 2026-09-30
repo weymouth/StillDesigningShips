@@ -21,6 +21,9 @@ Then open <http://localhost:8000>. Use this rather than `python -m http.server`:
 
 PDF backup: open `http://localhost:8000/?print-pdf` in Chrome → Print → Save as PDF (landscape, no margins, background graphics on).
 
+## Publishing changes
+GitHub Pages lets browsers cache files for about 10 minutes. After changing anything in `css/` or `js/`, bump the `?v=` tag on their links in `index.html` so everyone gets the new files at once.
+
 ## Structure
 - `index.html` holds every slide, in order, with speaker notes in `<aside class="notes">`.
 - `css/theme.css` is the cinematic dark theme (Libertinus Serif, amber and TU Delft cyan accents).
