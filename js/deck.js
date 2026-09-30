@@ -54,7 +54,9 @@
         node.style.aspectRatio = `${w * (1 - l - r)} / ${h * (1 - t - b)}`;
         node.style.objectFit = 'cover';
         node.style.objectPosition = `${l + r ? 100 * l / (l + r) : 50}% ${t + b ? 100 * t / (t + b) : 50}%`;
-        if (!el.classList.contains('card')) { node.style.width = '100%'; node.style.height = 'auto'; node.style.maxHeight = '100%'; }
+        // auto sizes + max limits: CSS carries each limit through the aspect ratio,
+        // so the cropped box fits inside its layer whichever side is tighter
+        if (!el.classList.contains('card')) Object.assign(node.style, { width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' });
         else node.style.width = 'auto';
       };
       el.classList.add('viewbox');

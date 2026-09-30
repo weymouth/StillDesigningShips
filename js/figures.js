@@ -439,6 +439,120 @@
   };
 
   // ---------------------------------------------------------------------
+  // Rough wall (Manuel Cabral's problem): flow streams over a bumpy wall and
+  // drags on it. Streamlines follow the bumps less with height and move faster
+  // with height (a boundary layer); green arrows are the wall stress, larger on
+  // the upstream faces of the bumps. Schematic, not data.
+  FIGURES['rough-wall'] = (svg, w, h) => {
+    const base = 400;
+    const bump = x => 22 * Math.sin(x / 41) + 9 * Math.sin(x / 17 + 1) + 3 * Math.sin(x / 9 + 2);
+    const wall = x => base - bump(x);
+    const slope = x => (wall(x + 1) - wall(x - 1)) / 2;
+    const defs = el('defs', {}, svg);
+    const mk = el('marker', { id: 'rw-arrow', viewBox: '0 0 10 10', refX: 8, refY: 5, markerWidth: 4, markerHeight: 4, orient: 'auto' }, defs);
+    el('path', { d: 'M0,0 L10,5 L0,10 Z', class: 'green-fill' }, mk);
+    const clip = el('clipPath', { id: 'rw-clip' }, defs);
+    el('rect', { x: 0, y: 0, width: w, height: h }, clip);
+
+    // streamlines: bumpier near the wall, faster higher up
+    const g = el('g', { 'clip-path': 'url(#rw-clip)' }, svg);
+    for (let j = 1; j <= 5; j++) {
+      let d = '';
+      for (let x = -20; x <= w + 20; x += 4) d += `${d ? 'L' : 'M'}${x},${(base - 58 * j + bump(x) * -Math.exp(-j / 1.4)).toFixed(1)}`;
+      const p = el('path', { d, class: 'flowline' }, g);
+      p.style.setProperty('--T', `${(3.2 / Math.sqrt(j)).toFixed(2)}s`);
+    }
+    text(svg, 0, base - 58 * 5 - 22, 'flow →', { 'font-size': 34, class: 'cool' });
+
+    // the wall itself
+    let d = `M0,${base + 40}`;   // a band of wall, stopping above the text
+    for (let x = 0; x <= w; x += 3) d += `L${x},${wall(x).toFixed(1)}`;
+    el('path', { d: `${d} L${w},${base + 40} Z`, class: 'wall' }, svg);
+
+    // wall stress: tangent arrows, bigger where the flow hits the upstream face
+    for (let x = 40; x < w - 30; x += 58) {
+      const s = slope(x), n = Math.hypot(1, s), hit = Math.max(0.35, Math.min(1.6, 1 + 2.2 * s));
+      const L = 34 * hit, ux = 1 / n, uy = s / n, y0 = wall(x) - 7;
+      el('line', { x1: x, y1: y0, x2: x + L * ux, y2: y0 + L * uy, class: 'stress', 'marker-end': 'url(#rw-arrow)' }, svg);
+    }
+
+    const lab = text(svg, w, base + 78, '', { 'font-size': 32, class: 'green', 'text-anchor': 'end' });
+    el('tspan', { 'font-style': 'italic', 'font-size': 38 }, lab).textContent = 'τ';
+    el('tspan', { 'font-size': 24, dy: 7 }, lab).textContent = 'w';
+    el('tspan', { dy: -7 }, lab).textContent = ': friction on the wall';
+
+    // what it depends on
+    text(svg, 0, base + 150, 'It depends on 11 variables:', { 'font-size': 38 });
+    [['flow', 'speed · density · viscosity'], ['bumps', 'rms height · mean height · slope'],
+     ['where', 'where on the ship'], ['heat', 'temperature · wall temperature · conductivity · heat capacity']].forEach(([k, v], i) => {
+      text(svg, 0, base + 196 + 34 * i, k, { 'font-size': 24, class: 'faint', 'letter-spacing': '0.1em' });
+      text(svg, 90, base + 196 + 34 * i, v, { 'font-size': 26, class: 'dim' });
+    });
+  };
+
+  // ---------------------------------------------------------------------
+  // Turning, each in its own body lengths (1 L = same size on screen).
+  // Ship: rudder over at the dot; advance 4.5 L, tactical diameter 5 L (the
+  // speaker's data; sketched as 2 L of run-on then a 2.5 L-radius circle).
+  // Sailboat tack ≈ 3 boat lengths; fish turn < 1 body length. Every silhouette
+  // moves at the same speed in body lengths per second.
+  FIGURES['turning'] = svg => {
+    const L = 64, speed = 2.2;   // px per body length; body lengths per second (screen)
+    const defs = el('defs', {}, svg);
+    const mk = el('marker', { id: 'dim-arrow', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 5, markerHeight: 5, orient: 'auto-start-reverse' }, defs);
+    el('path', { d: 'M0,0 L10,5 L0,10 Z', fill: 'var(--ink-dim)' }, mk);
+    const shapes = {   // silhouettes one body length long, pointing along +x
+      ship: 'M-32,-6 L22,-6 L32,0 L22,6 L-32,6 Z',
+      boat: 'M-32,-5 L20,-5 L32,0 L20,5 L-32,5 Z M-6,-4 L-6,-30 L14,-4 Z',
+      fish: 'M32,0 C20,-11 -6,-12 -18,-3 L-32,-12 L-28,0 L-32,12 L-18,3 C-6,12 20,11 32,0 Z',
+    };
+    function panel(g, ox, oy, pts, arcs, total, shape, cls) {
+      // pts/arcs describe the path in body lengths; draw it, then send the silhouette round
+      const P = ([x, y]) => `${(ox + x * L).toFixed(1)},${(oy + y * L).toFixed(1)}`;
+      let d = `M${P(pts[0])}`;
+      arcs.forEach(([kind, a, b, r, sweep, big]) => {
+        d += kind === 'L' ? ` L${P(a)}` : ` A${r * L},${r * L} 0 ${big || 0} ${sweep} ${P(a)}`;
+      });
+      el('path', { d, class: `turn-path ${cls}` }, g);
+      el('circle', { cx: ox + pts[1][0] * L, cy: oy + pts[1][1] * L, r: 8, class: 'dot' }, g);   // rudder / tack point
+      const body = el('path', { d: shapes[shape], class: `turn-body ${cls}` }, g);
+      el('animateMotion', { dur: `${(total / speed).toFixed(2)}s`, repeatCount: 'indefinite', path: d, rotate: 'auto' }, body);
+    }
+    function dim(g, x1, y1, x2, y2, label, dx = 0, dy = 0, anchor = 'middle') {
+      el('line', { x1, y1, x2, y2, class: 'dim-line', 'marker-start': 'url(#dim-arrow)', 'marker-end': 'url(#dim-arrow)' }, g);
+      text(g, (x1 + x2) / 2 + dx, (y1 + y2) / 2 + dy, label, { 'font-size': 28, class: 'dim', 'text-anchor': anchor });
+    }
+
+    // ship: heading up; rudder at (0,0); run-on to (0,-2); circle of radius 2.5 about (2.5,-2)
+    const sx = 170, sy = 470;
+    panel(svg, sx, sy, [[0, 1.5], [0, 0]],
+      [['L', [0, 0]], ['L', [0, -2]], ['A', [5, -2], null, 2.5, 1], ['A', [2.5, 0.5], null, 2.5, 1]],
+      1.5 + 2 + 1.5 * Math.PI * 2.5, 'ship', 'ship');
+    dim(svg, sx - 50, sy, sx - 50, sy - 4.5 * L, 'advance 4.5', -14, 0, 'end');
+    dim(svg, sx, sy + 1.9 * L, sx + 5 * L, sy + 1.9 * L, 'turning circle: 5 ship lengths', 0, 44);
+    text(svg, sx + 2.5 * L, sy - 5.1 * L, 'Ship', { 'font-size': 44, 'text-anchor': 'middle' });
+
+    // sailboat tack, wind from the top: in heading up-right (NE), a 90° turn of
+    // radius 2.1 through head-to-wind, out heading up-left (NW); spans ≈ 3 L
+    const g2 = frag(svg, 1), bx = 930, by = 560, r = 2.1, c = Math.SQRT1_2;
+    const t0 = [0, 0], t1 = [0, -2 * r * c];
+    panel(g2, bx, by, [[-1.4, 1.4], t0],
+      [['L', t0], ['A', t1, null, r, 0], ['L', [-1.4, t1[1] - 1.4]]],
+      2 + (Math.PI / 2) * r + 2, 'boat', 'sail');
+    dim(g2, bx + 1.4 * L, by, bx + 1.4 * L, by + t1[1] * L, 'tack: ~3 boat lengths', 18, 10, 'start');
+    text(g2, bx, by - 5.2 * L, 'Sailboat', { 'font-size': 44, 'text-anchor': 'middle' });
+    text(g2, bx + 1.6 * L, by - 5.2 * L, 'wind ↓', { 'font-size': 28, class: 'dim' });
+
+    // fish: up 1.5 L, U-turn of radius 0.25 L, back down
+    const g3 = frag(svg, 2), fx = 1490, fy = 470;
+    panel(g3, fx, fy, [[0, 1.5], [0, 0]],
+      [['L', [0, 0]], ['A', [0.5, 0], null, 0.25, 1], ['L', [0.5, 1.5]]],
+      1.5 + Math.PI * 0.25 + 1.5, 'fish', 'animal');
+    dim(g3, fx - 0.6 * L, fy + 1.9 * L, fx + 1.1 * L, fy + 1.9 * L, 'less than 1 body length', 0, 44);
+    text(g3, fx + 0.25 * L, fy - 5.1 * L, 'Fish', { 'font-size': 44, 'text-anchor': 'middle' });
+  };
+
+  // ---------------------------------------------------------------------
   // Speed cubed. Drag ∝ U², power = drag × U ∝ U³ (fuel per hour); a trip of
   // fixed length takes 1/U as long, so fuel per trip ∝ U². Idealised: ignores
   // hotel load and the engine's efficiency changing with load.
@@ -520,8 +634,10 @@
   document.querySelectorAll('.figure[data-figure]').forEach(div => {
     const draw = FIGURES[div.dataset.figure];
     if (!draw) { div.textContent = `unknown figure: ${div.dataset.figure}`; return; }
-    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, 'aria-hidden': 'true' }, div);
-    const ctl = draw(svg);
+    // data-w / data-h: a figure box other than the default 1700 × 750
+    const w = +div.dataset.w || W, h = +div.dataset.h || H;
+    const svg = el('svg', { viewBox: `0 0 ${w} ${h}`, 'aria-hidden': 'true' }, div);
+    const ctl = draw(svg, w, h);
     if (ctl) controls.push([div, ctl]);
   });
 

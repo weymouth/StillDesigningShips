@@ -14,6 +14,7 @@
   --rule: #2a2f35;
   --warm: #f0a53c;        /* amber: the hero series / emphasis */
   --cool: #00a6d6;        /* TU Delft cyan: the contrast series */
+  --green: #5fd49a;       /* matches the wall-stress colour in Manuel Cabral's plot */
   --shade: 4, 6, 9;       /* rgb of scrims and text shadows (the background, over photos) */
   --credit: rgba(242, 238, 230, 0.6);
   --water: #1d3a4a; --land: #1d2b35; --sea: #0e3242;
@@ -28,7 +29,7 @@ html, body, .reveal, .reveal-viewport { background: var(--bg); }
    Photos keep their colours; the scrims behind headlines become a pale haze. */
 html[data-theme="light"] {
   --bg: #f5f3ee; --ink: #15181c; --ink-dim: #4f5357; --ink-faint: #8f9295; --rule: #d6d7d8;
-  --warm: #b3650a; --cool: #00739a;
+  --warm: #b3650a; --cool: #00739a; --green: #1f9a62;
   --shade: 245, 243, 238;
   --credit: rgba(21, 24, 28, 0.65);
   --water: #9fc3d4; --land: #d9dddf; --sea: #cfe4ee;
@@ -55,8 +56,20 @@ html[data-theme="light"] .reveal .scrim { background: linear-gradient(to top, rg
 /* Invert: dark-on-white images (e.g. a skeleton on white) shown light-on-dark */
 .reveal .media.invert > img { filter: invert(1) hue-rotate(180deg); background: #fff; }
 .reveal .media.invert { background: #000; }
+/* Two-panel slide: coded graphic on the left, a picture on the right */
+.reveal .figure.half-left { left: 110px; right: auto; width: 800px; top: 250px; height: 640px; bottom: auto; }
+.reveal .media.half-right { left: 980px; right: 60px; top: 230px; bottom: 170px; background: transparent; }
+.reveal .caption.tagline.half { left: 980px; max-width: 880px; bottom: 60px; font-size: 44px; }
+
 /* Cropped media (data-view): centre the cropped box */
 .reveal .media.viewbox { display: flex; align-items: center; justify-content: center; }
+
+/* framed75 (not "shrink": that is a reveal.js fragment effect): a clip at 75% width, framed under a top headline (for bright videos) */
+.reveal .media.framed75 { display: flex; justify-content: center; align-items: flex-start; padding-top: 180px; }
+.reveal .media.framed75 > video, .reveal .media.framed75 > img {
+  width: 75%; height: auto; border-radius: 14px; box-shadow: var(--card-shadow);
+}
+.reveal .overlay .caption.tagline, .reveal .media.framed75 > .caption.tagline { bottom: 36px; }
 
 /* Card under a top headline and above a bottom tagline */
 .reveal .media.card.low > img, .reveal .media.card.low > video { height: 62%; margin: 40px 0 0 0; }
@@ -65,10 +78,11 @@ html[data-theme="light"] .reveal .scrim { background: linear-gradient(to top, rg
 .reveal .media.inset { display: flex; justify-content: center; align-items: flex-start; padding-top: 175px; }
 .reveal .media.inset > img { width: 84%; height: auto; object-fit: contain; }
 .reveal .caption.medium { font-size: 64px; max-width: 1500px; line-height: 1.1; bottom: 150px; }
+.reveal .caption.bridge { bottom: 190px; font-size: 60px; }
 .reveal .wordeq.warm, .reveal .wordeq.warm i { color: var(--warm); }
 .reveal .wordeq.warm .frac > span:first-child { border-bottom-color: var(--warm); }
 .reveal .caption.tagline { font-size: 52px; bottom: 56px; max-width: 1700px; }
-.reveal .caption.tagline.right { left: 1070px; max-width: 800px; }
+.reveal .caption.tagline.right { left: 960px; width: 960px; max-width: none; text-align: center; }   /* centred on the right half */
 .reveal .sub.big { font-size: 46px; }
 .reveal .footnote {
   position: absolute; z-index: 5; left: 110px; bottom: 90px; max-width: 1700px;
@@ -188,6 +202,23 @@ body.hide-placeholders .reveal .ph { display: none; }
 .reveal svg .bar.vert { transform-origin: center bottom; }
 .reveal section:not(.present) svg .bar.vert,
 .reveal svg g.fragment:not(.visible) .bar.vert { transform: scaleY(0); }
+
+/* Rough wall */
+.reveal svg .wall { fill: var(--ink-faint); }
+.reveal svg .flowline { fill: none; stroke: var(--cool); stroke-width: 3; stroke-dasharray: 22 16; animation: flow var(--T) linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -38; } }
+.reveal svg .stress { stroke: var(--green); stroke-width: 5; stroke-linecap: round; }
+.reveal svg .green, .reveal svg .green-fill { fill: var(--green); }
+@media (prefers-reduced-motion: reduce) { .reveal svg .flowline { animation: none; } }
+
+/* Turning circles */
+.reveal svg .turn-path { fill: none; stroke-width: 3; stroke-dasharray: 10 8; stroke: var(--ink-dim); }
+.reveal svg .turn-path.animal { stroke: var(--warm); }
+.reveal svg .turn-body { fill: var(--ink); }
+.reveal svg .turn-body.animal { fill: var(--warm); }
+.reveal svg .turn-path.sail { stroke: var(--cool); }
+.reveal svg .turn-body.sail { fill: var(--cool); }
+.reveal svg .dim-line { stroke: var(--ink-dim); stroke-width: 2; }
 
 /* Map */
 .reveal svg .land { fill: var(--land); }
